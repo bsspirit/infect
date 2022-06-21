@@ -13,7 +13,7 @@
 + 如何获取新冠数据
 + 北京的数据带入模型预测
 
-## 代码code
+## 代码：code目录
 
 + model.r，按数学公式，手动编写模型代码，并进行传播模拟。
 + model-epi.r，使用EpiModel包，进行传播模拟。
@@ -42,5 +42,16 @@ SEIR模型
 
 疫情数据获取
 ![](./image/07.png)
+
+## 参考资料
+
+
+
++ https://zhuanlan.zhihu.com/p/104439779
++ https://cloud.tencent.com/developer/article/1607390
++ http://statnet.org/tut/BasicDCMs.html
++ https://github.com/GuangchuangYu/nCov2019
+
+
 
 
