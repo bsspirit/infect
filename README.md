@@ -34,7 +34,7 @@ EpiModel包
 SEIR模型
 ![](./image/06.png)
 
-疫情数据
+疫情数据获取
 ![](./image/07.png)
 
 
