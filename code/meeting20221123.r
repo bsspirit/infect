@@ -153,7 +153,7 @@ g
 # 模型拟合：202210
 #########################
 N <- 30*1000*1000         # 总人数
-window<-12                # 12期时间窗口
+window<-7                 # 传染期
 
 SIR<-function(time,vars,params){
   with(as.list(c(vars,params)),{ #beta=rio,gamma=mu
@@ -203,41 +203,54 @@ R0<-function(df){
 # 202204
 
 n<-nrow(bj202204)
-rodf<-lapply(12:(n-window),function(s){
+rodf<-lapply(14:(n-window),function(s){
   df<-bj202204[s:(s+window-1),]
   print(df$date[1])
   R0(df)
 })%>% ldply
 
-par(mfrow = c(3, 1))
-plot(cum~date,data=bj202204,type='b',col="blue")
-plot(daily~date,data=bj202204,type='b',col="red")
 
-d2<-data.frame(date=rodf$date,R0=rodf$R0)
-d1<-data.frame(date=as.Date('2022-04-01')+0:16,R0=NA)
-d2<-rbind(d1,d2)
-plot(R0~date,data=d2,ylim=c(1,1.5),type='b',col="orange")
+d1<-merge(bj202204,rodf,by="date",all.x=TRUE)
+d1$control<-0.01
+d1$control[which(d1$date>=as.Date('2022-04-25') & d1$date<=as.Date('2022-05-25'))]<-0.5
+d1$Re<-d1$R0*(1-d1$control) * (1-d1$cum/N)
+
+par(mfrow = c(4, 1))
+plot(cum~date,data=d1,type='b',col="blue")
+plot(daily~date,data=d1,type='b',col="red")
+plot(R0~date,data=d1,ylim=c(1,1.5),type='b',col="orange")  # R0
+plot(Re~date,data=d1,ylim=c(0,1.5),type='b',col="green")  # Re
 
 
 ##########################
 # 202210
 n<-nrow(bj202210)
-rodf<-lapply(12:(n-window),function(s){
+rodf<-lapply(14:(n-window),function(s){
   df<-bj202210[s:(s+window-1),]
   print(df$date[1])
   R0(df)
 })%>% ldply
 
-par(mfrow = c(3, 1))
-plot(cum~date,data=bj202210,type='b',col="blue")
-plot(daily~date,data=bj202210,type='b',col="red")
+d1<-merge(bj202210,rodf,by="date",all.x=TRUE)
+d1$control<-c(rep(0.01,n-4),rep(0.5,4))
+d1$Re<-d1$R0*(1-d1$control) * (1-d1$cum/N)
 
-d2<-data.frame(date=rodf$date,R0=rodf$R0)
-d1<-data.frame(date=as.Date('2022-09-01')+0:16,R0=NA)
-d2<-rbind(d1,d2)
-plot(R0~date,data=d2,ylim=c(1,1.5),type='b',col="orange")
+par(mfrow = c(4, 1))
+plot(cum~date,data=d1,type='b',col="blue")
+plot(daily~date,data=d1,type='b',col="red")
+plot(R0~date,data=d1,ylim=c(1,1.5),type='b',col="orange")  # R0
+plot(Re~date,data=d1,ylim=c(0,1.5),type='b',col="green")  # Re
 
+###
 
+# par(mfrow = c(3, 1))
+# plot(cum~date,data=bj202204,type='b',col="blue")
+# plot(daily~date,data=bj202204,type='b',col="red")
+# 
+# d2<-data.frame(date=rodf$date,R0=rodf$R0)
+# d1<-data.frame(date=as.Date('2022-04-01')+0:16,R0=NA)
+# d2<-rbind(d1,d2)
+# plot(R0~date,data=d2,ylim=c(1,1.5),type='b',col="orange")
 
 
 
