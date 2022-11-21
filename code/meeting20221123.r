@@ -3,7 +3,7 @@
 # 主题：用R语言解读传染病模型
 ####################
 
-#remotes::install_github("YuLab-SMU/nCov2019")
+
 setwd("C:/workspace/doc/meeting/ms-build-2022/infect/code")
 
 library(plyr)
@@ -25,6 +25,7 @@ draw<-function(df,ylog=TRUE){
 }
 ###################################
 
+#remotes::install_github("YuLab-SMU/nCov2019")
 library(nCov2019)
 x <- query()
 #saveRDS(x,"x.rds")
@@ -45,6 +46,7 @@ global$deaths/global$cases
 # 全球所有国家的最新一天数据
 last<-x$latest
 head(last["Global"],10)
+plot(x$latest)
 
 last[c("USA","India","China")]
 
@@ -173,7 +175,7 @@ r2 <- function(infected, fit) {
 }
 
 
-R1<-function(df){
+R0<-function(df){
   cases<-df$cum
   init <- c(s.num =N-cases[1],i.num=cases[1],r.num=0)
   
@@ -201,11 +203,10 @@ R1<-function(df){
 # 202204
 
 n<-nrow(bj202204)
-
 rodf<-lapply(12:(n-window),function(s){
   df<-bj202204[s:(s+window-1),]
   print(df$date[1])
-  R1(df)
+  R0(df)
 })%>% ldply
 
 par(mfrow = c(3, 1))
@@ -221,11 +222,10 @@ plot(R0~date,data=d2,ylim=c(1,1.5),type='b',col="orange")
 ##########################
 # 202210
 n<-nrow(bj202210)
-
 rodf<-lapply(12:(n-window),function(s){
   df<-bj202210[s:(s+window-1),]
   print(df$date[1])
-  R1(df)
+  R0(df)
 })%>% ldply
 
 par(mfrow = c(3, 1))
