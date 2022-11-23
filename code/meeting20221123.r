@@ -28,8 +28,8 @@ draw<-function(df,ylog=TRUE){
 #remotes::install_github("YuLab-SMU/nCov2019")
 library(nCov2019)
 x <- query()
-#saveRDS(x,"x.rds")
-#x<-readRDS("x.rds")
+saveRDS(x,"x20221123.rds")
+#x<-readRDS("x20221123.rds")
 names(x)
 
 # shiny 控制台
@@ -49,7 +49,6 @@ head(last["Global"],10)
 plot(x$latest)
 
 last[c("USA","India","China")]
-
 last$detail[which(last$detail$country=="China"),]
 
 # 全球所有国家的最新一天数据
@@ -58,46 +57,46 @@ head(hist["China"],10)
 tail(hist["China"],10)
 head(hist['China','beijing'])
 
-#目前疫苗研发进展
-vac <- x$vaccine
-summary(vac)
-head(vac["all"])
-
-# 科兴疫苗
-vac["all"][which(vac["all"]$candidate=='CoronaVac'),]
-vac[ID="id5"]
-
-#目前治疗进展
-thera<- x$therapeutics
-summary(thera)
-head(thera["All"])
-thera[ID="id30"] 
-
-# 不同国家的数据
-tmp <- hist["global"] %>%
-  group_by(country) %>%
-  arrange(country,date) %>%
-  mutate(diff = cases - lag(cases, default =  first(cases))) %>%
-  filter(country %in% c("Australia", "Japan", "Italy", "Germany",  "China", "USA")) 
-
-ggplot(tmp,aes(date, diff, color=country)) + geom_line() +
-  labs(y="daily increase cases") + 
-  theme(axis.text = element_text(angle = 15, hjust = 1)) +
-  scale_x_date(date_labels = "%Y-%m-%d") + 
-  theme_minimal()
-
-# 扩展维度可视化
-# 中国累计确诊
-china <- hist['China']
-china <- china[order(china$cases), ]
-
-ggplot(china, 
-       aes(date, cases)) +
-  geom_col(fill = 'firebrick') + 
-  theme_minimal(base_size = 14) +
-  xlab(NULL) + ylab(NULL) + 
-  scale_x_date(date_labels = "%Y/%m/%d") +
-  labs(caption = paste("accessed date:", max(china$date)))
+# #目前疫苗研发进展
+# vac <- x$vaccine
+# summary(vac)
+# head(vac["all"])
+# 
+# # 科兴疫苗
+# vac["all"][which(vac["all"]$candidate=='CoronaVac'),]
+# vac[ID="id5"]
+# 
+# #目前治疗进展
+# thera<- x$therapeutics
+# summary(thera)
+# head(thera["All"])
+# thera[ID="id30"] 
+# 
+# # 不同国家的数据
+# tmp <- hist["global"] %>%
+#   group_by(country) %>%
+#   arrange(country,date) %>%
+#   mutate(diff = cases - lag(cases, default =  first(cases))) %>%
+#   filter(country %in% c("Australia", "Japan", "Italy", "Germany",  "China", "USA")) 
+# 
+# ggplot(tmp,aes(date, diff, color=country)) + geom_line() +
+#   labs(y="daily increase cases") + 
+#   theme(axis.text = element_text(angle = 15, hjust = 1)) +
+#   scale_x_date(date_labels = "%Y-%m-%d") + 
+#   theme_minimal()
+# 
+# # 扩展维度可视化
+# # 中国累计确诊
+# china <- hist['China']
+# china <- china[order(china$cases), ]
+# 
+# ggplot(china, 
+#        aes(date, cases)) +
+#   geom_col(fill = 'firebrick') + 
+#   theme_minimal(base_size = 14) +
+#   xlab(NULL) + ylab(NULL) + 
+#   scale_x_date(date_labels = "%Y/%m/%d") +
+#   labs(caption = paste("accessed date:", max(china$date)))
 
 ##################################
 
@@ -115,6 +114,9 @@ bj202204<-beijing[which(beijing$date>=as.Date("2022-04-01") & beijing$date<=as.D
 bj202204$cum<-cumsum(bj202204$daily) # 累计
 head(bj202204)
 draw(bj202204[,c("date", "cum","daily")],FALSE)
+
+bj202204now<-beijing[which(beijing$date>=as.Date("2022-04-01")),]
+bj202204now$cum<-cumsum(bj202204now$daily) # 累计
 
 # 本次疫情从10月1日到11月20日数据
 bj202210<-beijing[which(beijing$date>=as.Date("2022-09-01")),]
@@ -140,7 +142,7 @@ moddf<-as.data.frame(mod)
 moddf$date<-as.Date("2022-04-01")+0:(nrow(moddf)-1)
 
 d1<-data.frame(date=moddf$date,i=moddf$i.num,variable="sir")
-d2<-data.frame(date=bj202204$date,i=bj202204$cum,variable="real")
+d2<-data.frame(date=bj202204now$date,i=bj202204now$cum,variable="real")
 mdf<-rbind(d1,d2)
 
 g<-ggplot(data = mdf, mapping = aes(x=date,y=i,colour=variable))
