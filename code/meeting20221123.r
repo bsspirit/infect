@@ -25,7 +25,7 @@ draw<-function(df,ylog=TRUE){
 }
 ###################################
 
-#remotes::install_github("YuLab-SMU/nCov2019")
+#install.packages("nCov2019")
 library(nCov2019)
 x <- query()
 saveRDS(x,"x20221123.rds")
