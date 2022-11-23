@@ -243,16 +243,6 @@ plot(daily~date,data=d1,type='b',col="red")
 plot(R0~date,data=d1,ylim=c(1,1.5),type='b',col="orange")  # R0
 plot(Re~date,data=d1,ylim=c(0,1.5),type='b',col="green")  # Re
 
-###
-
-# par(mfrow = c(3, 1))
-# plot(cum~date,data=bj202204,type='b',col="blue")
-# plot(daily~date,data=bj202204,type='b',col="red")
-# 
-# d2<-data.frame(date=rodf$date,R0=rodf$R0)
-# d1<-data.frame(date=as.Date('2022-04-01')+0:16,R0=NA)
-# d2<-rbind(d1,d2)
-# plot(R0~date,data=d2,ylim=c(1,1.5),type='b',col="orange")
 
 
 
