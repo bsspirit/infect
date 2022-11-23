@@ -57,46 +57,20 @@ head(hist["China"],10)
 tail(hist["China"],10)
 head(hist['China','beijing'])
 
-# #目前疫苗研发进展
-# vac <- x$vaccine
-# summary(vac)
-# head(vac["all"])
-# 
-# # 科兴疫苗
-# vac["all"][which(vac["all"]$candidate=='CoronaVac'),]
-# vac[ID="id5"]
-# 
-# #目前治疗进展
-# thera<- x$therapeutics
-# summary(thera)
-# head(thera["All"])
-# thera[ID="id30"] 
-# 
-# # 不同国家的数据
-# tmp <- hist["global"] %>%
-#   group_by(country) %>%
-#   arrange(country,date) %>%
-#   mutate(diff = cases - lag(cases, default =  first(cases))) %>%
-#   filter(country %in% c("Australia", "Japan", "Italy", "Germany",  "China", "USA")) 
-# 
-# ggplot(tmp,aes(date, diff, color=country)) + geom_line() +
-#   labs(y="daily increase cases") + 
-#   theme(axis.text = element_text(angle = 15, hjust = 1)) +
-#   scale_x_date(date_labels = "%Y-%m-%d") + 
-#   theme_minimal()
-# 
-# # 扩展维度可视化
-# # 中国累计确诊
-# china <- hist['China']
-# china <- china[order(china$cases), ]
-# 
-# ggplot(china, 
-#        aes(date, cases)) +
-#   geom_col(fill = 'firebrick') + 
-#   theme_minimal(base_size = 14) +
-#   xlab(NULL) + ylab(NULL) + 
-#   scale_x_date(date_labels = "%Y/%m/%d") +
-#   labs(caption = paste("accessed date:", max(china$date)))
+#目前疫苗研发进展
+vac <- x$vaccine
+summary(vac)
+head(vac["all"])
+
+# 科兴疫苗
+vac["all"][which(vac["all"]$candidate=='CoronaVac'),]
+vac[ID="id5"]
+ 
+#目前治疗进展
+thera<- x$therapeutics
+summary(thera)
+head(thera["All"])
+thera[ID="id30"] 
 
 ##################################
 
