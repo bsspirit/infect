@@ -4,7 +4,13 @@
 
 在流行病学领域，有几种不同传染病的传播模型，可以模拟病毒的传播过程。本次分享将使用R语言，来给大家演示病毒传播的过程。了解了病毒传播的逻辑，能让我们更加坚定战胜病毒的决心。
 
-本次分享是微软的2022年build大会首发：https://mp.weixin.qq.com/s/AXbQO718ZwfYhJ--6bGKyA
+
+[2022-11-23]2022 中国R会：用R语言解读传染病模型 ：http://blog.fens.me/meeting-r-20221125/
+
+[2022-06-18]2022 微软Build After Party：用R语言解读传染病模型：http://blog.fens.me/meeting-ms-build-20220618/
+
+[2022-11-29]北京疫情，模型结果，https://github.com/bsspirit/infect/blob/main/北京模型结果-20221129.md
+
 
 ## 个人介绍
 
